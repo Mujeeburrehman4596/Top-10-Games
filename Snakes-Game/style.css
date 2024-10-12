@@ -1,0 +1,23 @@
+
+body {
+  background-color: #f8f9fa;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+}
+
+canvas {
+  border: 2px solid #000;
+  background-color: #333;
+  display: block;
+  margin: 20px auto;
+}
+
+.controls {
+  margin-bottom: 20px;
+}
+
+.game-over {
+  font-size: 2rem;
+  color: red;
+  margin-top: 20px;
+}
