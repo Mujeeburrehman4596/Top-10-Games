@@ -1,0 +1,19 @@
+body {
+    background-color: #f5f5f5;
+  }
+  
+  h1 {
+    color: #343a40;
+    font-weight: bold;
+  }
+  
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  button {
+    width: 200px;
+  }
+  
