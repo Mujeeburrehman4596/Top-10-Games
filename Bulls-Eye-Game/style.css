@@ -1,0 +1,37 @@
+body {
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+
+  .game-area {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    background-color: #ddd;
+    margin: 20px auto;
+    border: 2px solid #000;
+  }
+
+  .bullseye {
+    position: absolute;
+    border-radius: 50%;
+    background-color: red;
+    border: 2px solid #fff;
+  }
+
+  .score-display {
+    margin-top: 20px;
+    font-size: 1.5rem;
+  }
+
+  .timer {
+    font-size: 1.5rem;
+    margin-top: 10px;
+  }
+
+  .game-over {
+    font-size: 2rem;
+    color: red;
+    margin-top: 20px;
+  }
