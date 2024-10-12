@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+    background: #000;
+}
+
+#game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: radial-gradient(ellipse at center, #0b1d39, #000);
+    position: relative;
+}
+
+canvas {
+    border: 5px solid white;
+}
+
+.info-panel {
+    position: absolute;
+    top: 20px;
+    color: white;
+    text-align: center;
+}
+
+#score {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    animation: twinkle 2s infinite;
+}
