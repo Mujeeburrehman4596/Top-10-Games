@@ -1,0 +1,51 @@
+
+    body {
+      background: linear-gradient(to top, #ff7e5f, #feb47b);
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    #game-area {
+      width: 100%;
+      height: 80vh;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .block {
+      width: 100px;
+      height: 20px;
+      background-color: #3498db;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: all 0.2s;
+    }
+
+    .falling-block {
+      animation: moveBlock 1s infinite;
+    }
+
+    @keyframes moveBlock {
+      0% { left: 0; }
+      100% { left: calc(100% - 100px); }
+    }
+
+    .score-display {
+      font-size: 2rem;
+      color: white;
+    }
+
+    .game-over {
+      font-size: 2rem;
+      color: red;
+      margin-top: 20px;
+    }
+
+    #startGameBtn {
+      margin-top: 10px;
+      font-size: 1.2rem;
+      padding: 10px 20px;
+    }
+  

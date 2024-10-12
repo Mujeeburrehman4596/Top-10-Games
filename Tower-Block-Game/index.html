@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Tower Block Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #282c34;
+        }
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: white;
+        }
+        #gameOver {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            color: red;
+            display: none;
+        }
+        #startBtn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="score">Score: 0</div>
+    <div id="gameOver">Game Over!</div>
+    <button id="startBtn">Start Game</button>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer;
+        let blocks = [];
+        let score = 0;
+        let previousBlockHeight = 0;
+        let currentBlock;
+        let isGameOver = false;
+        let fallSpeed = 0.1; // Speed of falling
+        let fallInterval;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Lighting
+            const light = new THREE.AmbientLight(0xffffff);
+            scene.add(light);
+
+            // Ground
+            const groundGeometry = new THREE.PlaneGeometry(200, 200);
+            const groundMaterial = new THREE.MeshStandardMaterial({ color: 0xaaaaaa });
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            scene.add(ground);
+
+            camera.position.z = 5;
+            window.addEventListener('resize', onWindowResize, false);
+            animate();
+        }
+
+        function startGame() {
+            score = 0;
+            previousBlockHeight = 0;
+            isGameOver = false;
+            blocks.forEach(block => scene.remove(block));
+            blocks = [];
+            document.getElementById('score').innerText = `Score: ${score}`;
+            document.getElementById('gameOver').style.display = 'none';
+            dropBlock();
+        }
+
+        function dropBlock() {
+            if (isGameOver) return;
+
+            const geometry = new THREE.BoxGeometry(1, 1, 1);
+            const material = new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff });
+            currentBlock = new THREE.Mesh(geometry, material);
+            currentBlock.position.set(0, 5, 0);
+            scene.add(currentBlock);
+            blocks.push(currentBlock);
+
+            // Reset fall speed for new block
+            clearInterval(fallInterval); // Clear any previous fall interval
+            fallInterval = setInterval(() => {
+                currentBlock.position.y -= fallSpeed;
+                if (currentBlock.position.y <= previousBlockHeight + 0.5) {
+                    clearInterval(fallInterval);
+                    stopBlock();
+                }
+            }, 100);
+        }
+
+        function stopBlock() {
+            if (isGameOver) return;
+
+            // Check alignment of the current block
+            const blockBottom = currentBlock.position.y;
+
+            if (Math.abs(blockBottom - previousBlockHeight - 0.5) < 0.5) {
+                // If aligned correctly, stop the block and increment score
+                currentBlock.position.y = previousBlockHeight + 0.5;
+                previousBlockHeight += 1;
+                score++;
+                document.getElementById('score').innerText = `Score: ${score}`;
+                dropBlock(); // Drop the next block
+            } else {
+                // If the block is misaligned, the game is over
+                isGameOver = true;
+                document.getElementById('gameOver').style.display = 'block';
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        document.getElementById('startBtn').addEventListener('click', startGame);
+        document.body.addEventListener('click', () => {
+            if (!isGameOver) {
+                // Stop the block when clicked
+                stopBlock();
+            }
+        });
+
+        init();
+    </script>
+</body>
+</html>
